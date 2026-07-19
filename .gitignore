@@ -10,6 +10,7 @@
 /node_modules
 npm-debug.log
 yarn-error.log
+.env
 
 # IDEs and editors
 .idea/
@@ -50,3 +51,8 @@ Thumbs.db
 /playwright/.cache
 
 .vercel
+
+# Secrets -- see .env.example for the template that IS committed
+.env
+.env.local
+.env*.local

@@ -17,9 +17,6 @@ export class SentencePage {
   private readonly sentenceService = inject(SentenceService);
 
   protected readonly posColors = POS_COLORS;
-  protected readonly hasApiKey = signal(this.sentenceService.hasApiKey());
-  protected readonly showKeyPanel = signal(!this.sentenceService.hasApiKey());
-  protected readonly apiKeyInput = signal('');
 
   protected readonly customTerm = signal('');
   protected readonly customLoading = signal(false);
@@ -28,19 +25,6 @@ export class SentencePage {
 
   protected hear(text: string, lang: 'th-TH' | 'en-US' = 'th-TH'): void {
     this.audio.speak(text, lang);
-  }
-
-  protected saveApiKey(): void {
-    const key = this.apiKeyInput().trim();
-    if (!key) return;
-    this.sentenceService.saveApiKey(key);
-    this.apiKeyInput.set('');
-    this.hasApiKey.set(true);
-    this.showKeyPanel.set(false);
-  }
-
-  protected changeApiKey(): void {
-    this.showKeyPanel.set(true);
   }
 
   protected async generateCustom(): Promise<void> {

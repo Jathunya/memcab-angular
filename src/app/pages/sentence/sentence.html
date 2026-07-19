@@ -3,83 +3,60 @@
     <h2>✨ Sentence Lab</h2>
   </div>
 
-  @if (showKeyPanel()) {
-    <div class="custom-panel card key-panel">
-      <p class="key-intro">Add your Groq API key to generate AI sentences. It's saved only in this browser.</p>
-      <div class="custom-row">
-        <input
-          type="password"
-          class="custom-input"
-          [ngModel]="apiKeyInput()"
-          (ngModelChange)="apiKeyInput.set($event)"
-          (keydown.enter)="saveApiKey()"
-          placeholder="Paste your Groq API key…"
-        />
-        <button type="button" class="btn btn-primary" [disabled]="!apiKeyInput().trim()" (click)="saveApiKey()">
-          Save key
-        </button>
-      </div>
-      @if (hasApiKey()) {
-        <button type="button" class="btn btn-ghost cancel-key" (click)="showKeyPanel.set(false)">Cancel</button>
-      }
+  <div class="custom-panel card">
+    <div class="custom-row">
+      <input
+        type="text"
+        class="custom-input"
+        [ngModel]="customTerm()"
+        (ngModelChange)="customTerm.set($event)"
+        (keydown.enter)="generateCustom()"
+        placeholder="Type a word (e.g., beautiful, running, cat)..."
+        [disabled]="customLoading()"
+      />
+      <button type="button" class="btn btn-primary ai-generate" [disabled]="customLoading()" (click)="generateCustom()">
+        <span class="sparkle">✨</span> AI Generate
+      </button>
     </div>
-  } @else {
-    <div class="custom-panel card">
-      <div class="custom-row">
-        <input
-          type="text"
-          class="custom-input"
-          [ngModel]="customTerm()"
-          (ngModelChange)="customTerm.set($event)"
-          (keydown.enter)="generateCustom()"
-          placeholder="Type a word (e.g., beautiful, running, cat)..."
-          [disabled]="customLoading()"
-        />
-        <button type="button" class="btn btn-primary ai-generate" [disabled]="customLoading()" (click)="generateCustom()">
-          <span class="sparkle">✨</span> AI Generate
-        </button>
-      </div>
-      @if (customError(); as err) {
-        <p class="custom-error">⚠ {{ err }}</p>
-      }
-      <button type="button" class="change-key-link" (click)="changeApiKey()">Change API key</button>
-    </div>
+    @if (customError(); as err) {
+      <p class="custom-error">⚠ {{ err }}</p>
+    }
+  </div>
 
-    @if (customLoading() || customResult()) {
-      <div class="stage card">
-        @if (customLoading()) {
-          <div class="generating">
-            <span class="spinner" aria-hidden="true"></span>
-            <p>Composing your sentence…</p>
+  @if (customLoading() || customResult()) {
+    <div class="stage card">
+      @if (customLoading()) {
+        <div class="generating">
+          <span class="spinner" aria-hidden="true"></span>
+          <p>Composing your sentence…</p>
+        </div>
+      } @else if (customResult(); as r) {
+        <div class="custom-result">
+          <div class="term-head">
+            <p class="term-text">{{ r.term }}</p>
+            <button type="button" class="hear" (click)="hear(r.term, 'en-US')" aria-label="Hear word">🔊</button>
           </div>
-        } @else if (customResult(); as r) {
-          <div class="custom-result">
-            <div class="term-head">
-              <p class="term-text">{{ r.term }}</p>
-              <button type="button" class="hear" (click)="hear(r.term, 'en-US')" aria-label="Hear word">🔊</button>
-            </div>
-            @if (r.pronunciation) {
-              <p class="pronunciation">{{ r.pronunciation }}</p>
-            }
-            <span class="pos" [style.color]="posColors[r.partOfSpeech]">{{ r.partOfSpeech }}</span>
+          @if (r.pronunciation) {
+            <p class="pronunciation">{{ r.pronunciation }}</p>
+          }
+          <span class="pos" [style.color]="posColors[r.partOfSpeech]">{{ r.partOfSpeech }}</span>
 
-            <div class="thai-sub">
-              <span class="thai word">{{ r.thai }}</span>
-            </div>
+          <div class="thai-sub">
+            <span class="thai word">{{ r.thai }}</span>
+          </div>
 
-            <div class="example">
-              <div class="example-body">
-                <div class="sentence-line">
-                  <p class="english">{{ r.sentence }}</p>
-                  <button type="button" class="hear" (click)="hear(r.sentence, 'en-US')" aria-label="Hear sentence">🔊</button>
-                </div>
+          <div class="example">
+            <div class="example-body">
+              <div class="sentence-line">
+                <p class="english">{{ r.sentence }}</p>
+                <button type="button" class="hear" (click)="hear(r.sentence, 'en-US')" aria-label="Hear sentence">🔊</button>
               </div>
             </div>
-
-            <button type="button" class="btn btn-ghost save-btn" (click)="saveCustom()">💾 Add to My Decks</button>
           </div>
-        }
-      </div>
-    }
+
+          <button type="button" class="btn btn-ghost save-btn" (click)="saveCustom()">💾 Add to My Decks</button>
+        </div>
+      }
+    </div>
   }
 </div>

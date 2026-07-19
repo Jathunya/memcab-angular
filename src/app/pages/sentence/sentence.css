@@ -14,37 +14,6 @@
   padding: 1.1rem 1.25rem;
 }
 
-.key-panel {
-  text-align: left;
-}
-
-.key-intro {
-  margin: 0 0 0.75rem;
-  font-size: 0.85rem;
-  color: var(--ink-soft);
-}
-
-.cancel-key {
-  margin-top: 0.6rem;
-}
-
-.change-key-link {
-  align-self: center;
-  margin: 0.6rem auto 0;
-  display: block;
-  border: none;
-  background: transparent;
-  color: var(--muted);
-  font-size: 0.78rem;
-  font-weight: 600;
-  padding: 0;
-}
-
-.change-key-link:hover {
-  color: var(--teal-deep);
-  text-decoration: underline;
-}
-
 .custom-row {
   display: flex;
   flex-wrap: wrap;
