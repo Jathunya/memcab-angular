@@ -1,0 +1,186 @@
+:host {
+  display: block;
+}
+
+.progress {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.top-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1.25rem;
+}
+
+.ring-card {
+  padding: 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.donut {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.donut-hole {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.donut-hole .pct {
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.donut-hole .label {
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+.legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.dot.mastered {
+  background: var(--teal);
+}
+
+.dot.learning {
+  background: var(--amber);
+}
+
+.dot.new {
+  background: var(--new-grey);
+}
+
+.stat-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.stat {
+  padding: 1rem 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stat .value {
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.stat .label {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.best-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.best-card {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  text-align: center;
+}
+
+.icon-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.icon-badge svg {
+  width: 22px;
+  height: 22px;
+}
+
+.icon-badge.teal {
+  background: var(--teal-tint);
+  color: var(--teal-deep);
+}
+
+.icon-badge.amber {
+  background: var(--amber-tint);
+  color: var(--amber-ink);
+}
+
+.icon-badge.violet {
+  background: var(--violet-tint);
+  color: var(--violet);
+}
+
+.icon-badge.coral {
+  background: var(--coral-tint);
+  color: var(--coral);
+}
+
+.best-card h3 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.best-card .score {
+  font-weight: 800;
+  color: var(--teal-deep);
+  font-size: 0.85rem;
+}
+
+.best-card .score.muted {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .top-row {
+    grid-template-columns: 1fr;
+  }
+  .best-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Color tokens for the Sentence Lab screen, mirrored 1:1 from the web app's
+  design tokens (see memcab-angular/src/styles.css). Merge these into your
+  existing colors.xml — skip any name that's already defined there.
+-->
+<resources>
+    <color name="teal">#10A19A</color>
+    <color name="teal_deep">#0B6E6A</color>
+    <color name="teal_tint">#E4F5F3</color>
+
+    <color name="amber">#F2A93B</color>
+    <color name="amber_ink">#B57A16</color>
+    <color name="amber_tint">#FFF3DE</color>
+
+    <color name="coral">#E7695B</color>
+    <color name="coral_ink">#C0392B</color>
+    <color name="coral_tint">#FDECEC</color>
+
+    <color name="ink">#1B2B2A</color>
+    <color name="ink_soft">#6B7C7B</color>
+    <color name="muted">#9AA7A6</color>
+
+    <color name="bg">#F7F3EC</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="hairline">#E1DACE</color>
+</resources>

@@ -1,0 +1,141 @@
+@if (folder(); as f) {
+  <div class="deck-detail">
+    <a routerLink="/decks" class="back-link">← My Decks</a>
+
+    <div class="section-head">
+      <div>
+        <h2>{{ f.name }}</h2>
+        <p class="desc">{{ f.description }}</p>
+      </div>
+      <div class="head-actions">
+        <div class="study-dropdown">
+          <button
+            type="button"
+            class="btn btn-primary study-trigger"
+            [disabled]="!f.words.length"
+            (click)="toggleStudyMenu($event)"
+          >
+            ▶ Study this deck
+            <span class="caret" [class.open]="studyMenuOpen()">▾</span>
+          </button>
+          @if (studyMenuOpen()) {
+            <div class="study-menu" (click)="$event.stopPropagation()">
+              <button type="button" class="study-option" (click)="startDailyReview(f)">
+                <span class="emoji">🎯</span>
+                <strong>Daily Review</strong>
+              </button>
+              <button type="button" class="study-option" (click)="playInGameHub(f)">
+                <span class="emoji">🎮</span>
+                <strong>Game Hub</strong>
+              </button>
+            </div>
+          }
+        </div>
+        <button type="button" class="btn btn-primary" (click)="addWord()">+ Add word</button>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7" />
+          <path d="m20 20-3.5-3.5" />
+        </svg>
+        <input
+          class="search"
+          placeholder="Search words…"
+          [ngModel]="search()"
+          (ngModelChange)="search.set($event)"
+        />
+      </div>
+      <button type="button" class="pill-btn csv-btn" (click)="exportCsv()" [disabled]="!f.words.length">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3v12" />
+          <path d="m7 10 5 5 5-5" />
+          <path d="M5 21h14" />
+        </svg>
+        CSV
+      </button>
+    </div>
+
+    <div class="pos-filters">
+      <button type="button" class="pill-btn pos-chip" [class.active]="posFilter() === 'all'" (click)="posFilter.set('all')">All</button>
+      @for (opt of posOptions; track opt) {
+        <button type="button" class="pill-btn pos-chip" [class.active]="posFilter() === opt" (click)="posFilter.set(opt)">{{ opt }}</button>
+      }
+    </div>
+
+    @if (filteredWords().length) {
+      <div class="list-head">
+        <span class="list-count">{{ filteredWords().length }} word(s)</span>
+        <button type="button" class="select-all-link" (click)="toggleSelectAll()">
+          {{ allFilteredSelected() ? 'Clear selection' : 'Select all' }}
+        </button>
+      </div>
+    }
+
+    @if (selected().size) {
+      <div class="bulk-bar">
+        <span>{{ selected().size }} selected</span>
+        <button type="button" class="btn btn-ghost" (click)="bulkMove()">Move</button>
+        <button type="button" class="btn btn-danger" (click)="bulkDelete()">Delete</button>
+        <button type="button" class="btn btn-ghost" (click)="clearSelection()">Clear</button>
+      </div>
+    }
+
+    @if (!f.words.length) {
+      <div class="empty-state card">
+        <span class="big-icon">📄</span>
+        <h2>No words yet</h2>
+        <p>Add your first word or import a CSV from the My Decks page.</p>
+        <button type="button" class="btn btn-primary" (click)="addWord()">+ Add word</button>
+      </div>
+    } @else {
+      <div class="word-cards">
+        @for (word of filteredWords(); track word.id) {
+          <div class="word-card-item card" [class.selected]="selected().has(word.id)">
+            <input
+              type="checkbox"
+              class="row-check"
+              [checked]="selected().has(word.id)"
+              (change)="toggleSelect(word.id)"
+              aria-label="Select word"
+            />
+            <button type="button" class="audio-btn" (click)="hear(word)" aria-label="Hear pronunciation">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 9v6h4l5 5V4L8 9H4z" />
+                <path d="M17.5 8.5a5 5 0 0 1 0 7" />
+              </svg>
+            </button>
+            <div class="word-info">
+              <div class="word-top">
+                <span class="word-text">{{ word.translation }}</span>
+                @if (word.pronunciation) {
+                  <span class="ipa">{{ word.pronunciation }}</span>
+                }
+                <span class="pos-pill" [class]="word.partOfSpeech">{{ word.partOfSpeech }}</span>
+              </div>
+              <div class="thai-sub-row">
+                <span class="thai">{{ word.word }}</span>
+              </div>
+              @if (word.customNote) {
+                <p class="note-preview">💬 {{ word.customNote }}</p>
+              }
+            </div>
+            <button type="button" class="edit-btn" (click)="editWord(word)" aria-label="Edit word">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+                <path d="M4 20h4L18.5 9.5a2 2 0 0 0 0-3l-1-1a2 2 0 0 0-3 0L4 16v4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+              </svg>
+            </button>
+          </div>
+        }
+      </div>
+    }
+  </div>
+} @else {
+  <div class="empty-state card">
+    <span class="big-icon">🔍</span>
+    <h2>Deck not found</h2>
+    <a routerLink="/decks" class="btn btn-primary">Back to My Decks</a>
+  </div>
+}

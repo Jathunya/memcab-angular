@@ -1,0 +1,63 @@
+<div class="home">
+  <section class="cta-row">
+    <a routerLink="/review" class="cta review">
+      <div>
+        <h2>🎴 Daily Review</h2>
+        <p>{{ store.reviewQueue().length }} word(s) waiting in your SRS queue.</p>
+      </div>
+      <span class="due-badge">{{ store.reviewQueue().length }} due</span>
+    </a>
+    <a routerLink="/hub" class="cta hub">
+      <div>
+        <span class="eyebrow">Game Hub</span>
+        <h2>Play to remember</h2>
+        <p>Match, Quiz, Type or Speak — pick a mode and a deck.</p>
+      </div>
+      <span class="go">Start playing →</span>
+    </a>
+  </section>
+
+  <section class="quick-row">
+    <a routerLink="/decks" class="quick-link decks">
+      <span class="icon">📁</span>
+      <div>
+        <h3>My Decks</h3>
+        <p>Build and manage custom vocabulary decks.</p>
+      </div>
+    </a>
+    <a routerLink="/badges" class="quick-link achievements">
+      <span class="icon">🏆</span>
+      <div>
+        <h3>Achievements</h3>
+        <p>{{ store.earnedBadges().length }} badges earned</p>
+      </div>
+    </a>
+    <a routerLink="/sentence" class="quick-link sentence">
+      <span class="icon">✨</span>
+      <div>
+        <h3>Sentence Lab</h3>
+        <p>Words in context.</p>
+      </div>
+    </a>
+  </section>
+
+  <section class="today">
+    <div class="section-head">
+      <h2>Today's words</h2>
+      <a routerLink="/decks" class="link">Manage decks →</a>
+    </div>
+    <div class="word-grid">
+      @for (word of store.todaysWords(); track word.id) {
+        <div class="word-card card" [class]="status(word)">
+          <div class="word-top">
+            <span class="thai word">{{ word.word }}</span>
+            <button type="button" class="hear" (click)="hear(word)" aria-label="Hear it">🔊</button>
+          </div>
+          <p class="translation">{{ word.translation }}</p>
+          <span class="pos" [style.color]="posColors[word.partOfSpeech]">{{ word.partOfSpeech }}</span>
+          <span class="status" [class]="status(word)">{{ status(word) }}</span>
+        </div>
+      }
+    </div>
+  </section>
+</div>

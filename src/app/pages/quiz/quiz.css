@@ -1,0 +1,97 @@
+:host {
+  display: block;
+}
+
+.quiz {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.empty-state {
+  max-width: 520px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.game-inner-content {
+  max-width: 520px;
+}
+
+.score {
+  font-weight: 800;
+  color: var(--teal-deep);
+  font-size: 0.85rem;
+}
+
+.timer-bar {
+  height: 6px;
+  border-radius: var(--r-pill);
+  background: var(--new-grey);
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  background: var(--amber);
+  transition: width 1s linear;
+}
+
+.prompt {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.word {
+  font-size: 2.2rem;
+  font-weight: 800;
+}
+
+.options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.option {
+  padding: 1rem;
+  border-radius: var(--r-control);
+  border: 1px solid transparent;
+  background: var(--surface);
+  box-shadow: var(--sh-sm);
+  font-weight: 700;
+  transition: box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.option.picked {
+  box-shadow: var(--sh-inset-sm);
+}
+
+.option.correct {
+  background: var(--teal-tint);
+  color: var(--teal-deep);
+  box-shadow: var(--sh-inset-sm);
+}
+
+.option.wrong {
+  background: var(--coral-tint);
+  color: var(--coral);
+  box-shadow: var(--sh-inset-sm);
+}
+
+@media (max-width: 480px) {
+  .prompt {
+    padding: 1.75rem 1.25rem;
+  }
+
+  .word {
+    font-size: 1.6rem;
+  }
+
+  .options {
+    grid-template-columns: 1fr;
+  }
+}

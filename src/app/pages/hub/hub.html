@@ -1,0 +1,81 @@
+<div class="hub">
+  <section>
+    <div class="section-head">
+      <h2>Choose a deck</h2>
+    </div>
+    <div class="deck-row">
+      @for (deck of deckOptions(); track deck.id) {
+        <button
+          type="button"
+          class="deck-chip"
+          [class.selected]="selectedDeckId() === deck.id"
+          (click)="selectDeck(deck.id)"
+        >
+          {{ deck.name }}
+          <span class="count">{{ deck.count }}</span>
+        </button>
+      }
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>Choose a mode</h2>
+    </div>
+    <div class="mode-grid">
+      @for (card of modes; track card.mode) {
+        <button
+          type="button"
+          class="mode-card card"
+          [class.disabled]="selectedCount() < card.minWords"
+          (click)="play(card)"
+        >
+          <span class="icon-badge" [class]="card.color">
+            @switch (card.mode) {
+              @case ('match') {
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="7" height="7" rx="1.5" />
+                  <rect x="14" y="3" width="7" height="7" rx="1.5" />
+                  <rect x="3" y="14" width="7" height="7" rx="1.5" />
+                  <rect x="14" y="14" width="7" height="7" rx="1.5" />
+                </svg>
+              }
+              @case ('quiz') {
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="13" r="8" />
+                  <path d="M12 9v4l3 2" />
+                  <path d="M9 2h6" />
+                </svg>
+              }
+              @case ('type') {
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="6" width="20" height="13" rx="2.5" />
+                  <path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01" />
+                  <path d="M8 14h8" />
+                </svg>
+              }
+              @case ('speak') {
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 3h4v4" />
+                  <path d="M21 3l-7 7" />
+                  <path d="M17 21h4v-4" />
+                  <path d="M21 21l-7-7" />
+                  <path d="M3 3h4l7 7" />
+                  <path d="M3 21h4l4-4" />
+                </svg>
+              }
+            }
+          </span>
+          <h3>{{ card.title }}</h3>
+          <p>{{ card.description }}</p>
+          @if (best(card.mode); as b) {
+            <span class="best">Best: {{ b.score }}/{{ b.total }}</span>
+          }
+          @if (selectedCount() < card.minWords) {
+            <span class="warning">Needs {{ card.minWords }}+ words in this deck</span>
+          }
+        </button>
+      }
+    </div>
+  </section>
+</div>

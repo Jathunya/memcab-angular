@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  activity_sentence_lab.xml
+
+  NOTE: no Android project exists in this repo, so this is a complete,
+  self-contained reference layout rather than a literal diff against a
+  file we don't have. The section marked "EXISTING SCREEN CONTENT" is a
+  minimal stand-in for whatever you already render (word stage, preset
+  word chips, etc.) — merge the "NEW: CUSTOM WORD GENERATION" section
+  into your real file; everything else here is scaffolding to make this
+  file buildable on its own.
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="✨ Sentence Lab"
+            android:textColor="@color/ink"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <!-- ============================================================ -->
+        <!-- NEW: CUSTOM WORD GENERATION                                   -->
+        <!-- ============================================================ -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_card_surface"
+            android:orientation="vertical"
+            android:padding="18dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/customWordInputLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Type a word (e.g., beautiful, running, cat)..."
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxStrokeColor="@color/teal"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/customWordInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:maxLines="1" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/aiGenerateButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:backgroundTint="@color/teal_deep"
+                    android:text="✨ AI Generate"
+                    android:textAllCaps="false"
+                    app:cornerRadius="12dp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/sentenceErrorText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_error_coral_tint"
+                android:padding="10dp"
+                android:textColor="@color/coral_ink"
+                android:textStyle="bold"
+                android:visibility="gone"
+                tools:text="⚠ Could not generate sentence. Please check your internet connection."
+                tools:visibility="visible" />
+
+        </LinearLayout>
+
+        <!-- Stage: loading / generated result -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_card_surface"
+            android:gravity="center_horizontal"
+            android:minHeight="180dp"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- Loading state -->
+            <LinearLayout
+                android:id="@+id/loadingGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ProgressBar
+                    android:id="@+id/loadingSpinner"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:indeterminateTint="@color/teal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Composing your sentence…"
+                    android:textColor="@color/muted" />
+
+            </LinearLayout>
+
+            <!-- Generated custom-word result -->
+            <LinearLayout
+                android:id="@+id/customResultGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/resultThaiWord"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/ink"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
+                        tools:text="สวยงาม" />
+
+                    <ImageButton
+                        android:id="@+id/hearWordButton"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@android:color/transparent"
+                        android:contentDescription="Hear word"
+                        android:src="@android:drawable/ic_lock_silent_mode_off" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/resultRomanization"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textColor="@color/muted"
+                    android:textStyle="italic"
+                    tools:text="sŭai-ngaam" />
+
+                <TextView
+                    android:id="@+id/resultTranslation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/ink_soft"
+                    android:textStyle="bold"
+                    tools:text="beautiful" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@color/hairline" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/resultSentenceThai"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/ink"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        tools:text="ดอกไม้นี้สวยงามมาก" />
+
+                    <ImageButton
+                        android:id="@+id/hearSentenceButton"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@android:color/transparent"
+                        android:contentDescription="Hear sentence"
+                        android:src="@android:drawable/ic_lock_silent_mode_off" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/resultSentenceRomanization"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/muted"
+                    android:textStyle="italic"
+                    tools:text="dòk-máai née sŭai-ngaam mâak" />
+
+                <TextView
+                    android:id="@+id/resultSentenceEnglish"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/ink"
+                    android:textStyle="bold"
+                    tools:text="This flower is very beautiful." />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/addToDecksButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="💾 Add to My Decks"
+                    android:textAllCaps="false"
+                    app:cornerRadius="12dp"
+                    app:strokeColor="@color/teal" />
+
+            </LinearLayout>
+
+            <!-- ==================================================== -->
+            <!-- EXISTING SCREEN CONTENT (preset word stage) — stand-in -->
+            <!-- ==================================================== -->
+
+            <LinearLayout
+                android:id="@+id/presetWordGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/presetThaiWord"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/ink"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
+                    tools:text="น้ำ" />
+
+                <!-- ... existing romanization / translation / example-sentence views ... -->
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Preset word chips (existing horizontal chip list / RecyclerView) -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/wordChipsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/item_word_chip" />
+
+    </LinearLayout>
+
+</ScrollView>

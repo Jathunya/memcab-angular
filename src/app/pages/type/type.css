@@ -1,0 +1,90 @@
+:host {
+  display: block;
+}
+
+.type {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.empty-state {
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.game-inner-content {
+  max-width: 480px;
+}
+
+.score {
+  font-weight: 800;
+  color: var(--teal-deep);
+  font-size: 0.85rem;
+}
+
+.prompt {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.word {
+  font-size: 2.2rem;
+  font-weight: 800;
+}
+
+.hint {
+  margin: 0.5rem 0 0;
+  font-family: monospace;
+  font-size: 1.3rem;
+  letter-spacing: 0.15em;
+  color: var(--violet);
+}
+
+.answer-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.answer-row input {
+  flex: 1;
+  min-width: 140px;
+  border: 1px solid transparent;
+  border-radius: var(--r-control);
+  padding: 0.7rem 0.9rem;
+  font-size: 0.95rem;
+  background: var(--surface);
+  box-shadow: var(--sh-inset-sm);
+}
+
+.answer-row input.correct {
+  background: var(--teal-tint);
+  color: var(--teal-deep);
+}
+
+.answer-row input.wrong {
+  background: var(--coral-tint);
+  color: var(--coral);
+}
+
+.answer-reveal {
+  margin: 0;
+  color: var(--coral);
+  font-weight: 700;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .prompt {
+    padding: 1.75rem 1.25rem;
+  }
+
+  .word {
+    font-size: 1.6rem;
+  }
+}

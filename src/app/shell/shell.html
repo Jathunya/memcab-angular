@@ -1,0 +1,124 @@
+<div class="shell">
+  <aside class="sidebar">
+    <a class="brand" routerLink="/home">
+      <app-logo-mark [size]="40" />
+      <span class="brand-name">memcab</span>
+    </a>
+
+    <nav class="nav">
+      <a class="nav-item home" routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <span class="icon">🏠</span>
+        <span>Home</span>
+      </a>
+
+      @for (group of navGroups; track group.label) {
+        <div class="nav-group">
+          <p class="nav-group-label">{{ group.label }}</p>
+          @for (item of group.items; track item.path) {
+            <a class="nav-item" [routerLink]="item.path" routerLinkActive="active">
+              <span class="icon">{{ item.icon }}</span>
+              <span class="label">{{ item.label }}</span>
+              @if (navBadge(item.path); as badge) {
+                <span class="nav-badge">{{ badge }}</span>
+              }
+            </a>
+          }
+        </div>
+      }
+    </nav>
+
+    <div class="sidebar-footer">
+      <a class="nav-item" routerLink="/settings" routerLinkActive="active">
+        <span class="icon">⚙️</span>
+        <span class="label">Settings</span>
+      </a>
+    </div>
+  </aside>
+
+  <div class="main-column">
+    <header class="topbar">
+      <div class="greeting">
+        <p class="thai">{{ greeting }}, {{ store.user()?.name }}</p>
+        <p class="sub">Ready to learn some English today?</p>
+      </div>
+      <div class="stats">
+        <div class="stat-card streak">
+          <span class="num">🔥 {{ store.progress().streak }}</span>
+          <span class="label">Day streak</span>
+        </div>
+        <div class="stat-card points">
+          <span class="num">⭐ {{ store.progress().points }}</span>
+          <span class="label">Points</span>
+        </div>
+        <div class="avatar-wrap">
+          <button
+            type="button"
+            class="avatar"
+            (click)="toggleUserMenu($event)"
+            aria-label="User menu"
+            aria-haspopup="true"
+            [attr.aria-expanded]="isUserMenuOpen()"
+          >
+            @if (auth.currentUser()?.photoURL; as avatarUrl) {
+              <img [src]="avatarUrl" alt="" class="avatar-img" />
+            } @else {
+              {{ (store.user()?.name ?? '?').charAt(0).toUpperCase() }}
+            }
+          </button>
+
+          @if (isUserMenuOpen()) {
+            <div class="user-profile-dropdown" (click)="$event.stopPropagation()">
+              <div class="profile-header">
+                <div class="avatar-large">
+                  @if (auth.currentUser()?.photoURL; as avatarUrl) {
+                    <img [src]="avatarUrl" alt="" class="avatar-img" />
+                  } @else {
+                    {{ (store.user()?.name ?? '?').charAt(0).toUpperCase() }}
+                  }
+                </div>
+                <div class="profile-meta">
+                  <h3 class="profile-name">{{ store.user()?.name }}</h3>
+                  <span class="profile-email">{{ auth.currentUser()?.email }}</span>
+                </div>
+              </div>
+
+              <hr class="divider" />
+
+              <button type="button" class="menu-item logout-btn" (click)="logout()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                  <polyline points="16 17 21 12 16 7" />
+                  <line x1="21" y1="12" x2="9" y2="12" />
+                </svg>
+                Log Out
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <router-outlet />
+    </main>
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  @for (item of bottomNavItems; track item.path) {
+    <a
+      class="bottom-nav-item"
+      [routerLink]="item.path"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: item.path === '/home' }"
+    >
+      <span class="icon">{{ item.icon }}</span>
+      <span class="label">{{ item.label }}</span>
+      @if (navBadge(item.path); as badge) {
+        <span class="bottom-nav-badge">{{ badge }}</span>
+      }
+    </a>
+  }
+</nav>
+
+<app-modal-host />

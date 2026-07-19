@@ -1,0 +1,25 @@
+@if (store.lastResult(); as r) {
+  <div class="result">
+    <div class="result-card card">
+      @if (r.isBest) {
+        <span class="badge-new">New best! 🏅</span>
+      }
+      <span class="icon">{{ modeMeta[r.mode].icon }}</span>
+      <h1>{{ modeMeta[r.mode].title }}</h1>
+      <p class="deck">{{ r.deckName }}</p>
+
+      <div class="ring" [style.--pct.%]="percent">
+        <span class="pct">{{ percent }}%</span>
+      </div>
+
+      <p class="score-line">{{ r.score }} / {{ r.total }} correct</p>
+      <p class="points-line">+{{ r.points }} points earned</p>
+
+      <div class="actions">
+        <button type="button" class="btn btn-primary" (click)="replay()">Play again</button>
+        <a routerLink="/hub" class="btn btn-ghost">Pick another mode</a>
+        <a routerLink="/home" class="btn btn-ghost">Back to home</a>
+      </div>
+    </div>
+  </div>
+}

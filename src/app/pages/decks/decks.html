@@ -1,0 +1,47 @@
+<div class="decks">
+  <div class="section-head">
+    <h2>My Decks</h2>
+    <button type="button" class="btn btn-primary" (click)="newDeck()">+ New deck</button>
+  </div>
+
+  @if (!store.folders().length) {
+    <div class="empty-state card">
+      <span class="big-icon">📁</span>
+      <h2>No custom decks yet</h2>
+      <p>Create a deck to add your own words, or import a CSV.</p>
+      <button type="button" class="btn btn-primary" (click)="newDeck()">Create your first deck</button>
+    </div>
+  } @else {
+    <div class="deck-grid">
+      @for (folder of store.folders(); track folder.id) {
+        <div class="deck-card card">
+          <div class="icon-actions">
+            <button type="button" class="icon-btn" (click)="editDeck(folder)" aria-label="Edit deck">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none">
+                <path d="M4 20h4L18.5 9.5a2 2 0 0 0 0-3l-1-1a2 2 0 0 0-3 0L4 16v4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+              </svg>
+            </button>
+            <button type="button" class="icon-btn delete" (click)="deleteDeck(folder)" aria-label="Delete deck">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 7h16" />
+                <path d="M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3" />
+                <path d="M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" />
+                <path d="M10 11v6M14 11v6" />
+              </svg>
+            </button>
+          </div>
+          <a [routerLink]="['/decks', folder.id]" class="deck-main">
+            <h3>{{ folder.name }}</h3>
+            <p class="desc">{{ folder.description || 'No description' }}</p>
+            <span class="count-badge">{{ folder.words.length }} words</span>
+          </a>
+          <div class="deck-actions">
+            <button type="button" class="btn btn-ghost btn-import" (click)="fileInput.click()">Import CSV</button>
+            <input #fileInput type="file" accept=".csv" hidden (change)="importCsv(folder, fileInput)" />
+            <button type="button" class="btn btn-ghost btn-export" (click)="exportCsv(folder)" [disabled]="!folder.words.length">Export</button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

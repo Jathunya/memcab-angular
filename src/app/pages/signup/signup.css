@@ -1,0 +1,151 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+}
+
+.login {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  min-height: 100dvh;
+}
+
+.brand-side {
+  background: linear-gradient(160deg, var(--teal), var(--teal-deep));
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem;
+  gap: 1rem;
+}
+
+app-logo-mark {
+  margin-bottom: 0.5rem;
+}
+
+.brand-side h1 {
+  margin: 0;
+  font-size: 2.5rem;
+}
+
+.brand-side p {
+  max-width: 420px;
+  color: color-mix(in srgb, #fff 88%, transparent);
+  line-height: 1.6;
+}
+
+.highlights {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  font-weight: 600;
+}
+
+.form-side {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.login-form {
+  width: 100%;
+  max-width: 360px;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.login-form h2 {
+  margin: 0;
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.login-form .btn {
+  width: 100%;
+  margin-top: 0.4rem;
+}
+
+.form-error {
+  margin: 0;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--r-control);
+  background: var(--coral-tint);
+  color: var(--coral-ink);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.input-error {
+  border-color: var(--coral) !important;
+  background-color: var(--coral-tint) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--coral) 15%, transparent) !important;
+}
+
+.form-error-msg {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: var(--coral-ink);
+  font-size: 0.815rem;
+  font-weight: 600;
+  margin-top: 0.35rem;
+  margin-left: 0.25rem;
+}
+
+.error-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.animate-fade-in {
+  animation: field-fade-in 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes field-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.switch-auth {
+  margin: 0.2rem 0 0;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.switch-auth a {
+  color: var(--teal-deep);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.switch-auth a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 800px) {
+  .login {
+    grid-template-columns: 1fr;
+  }
+  .brand-side {
+    padding: 2.5rem;
+  }
+}

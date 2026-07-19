@@ -1,0 +1,195 @@
+<div class="settings-page">
+  <div class="tab-bar">
+    @for (tab of tabs; track tab.id) {
+      <button
+        type="button"
+        class="tab-btn"
+        [class.active]="activeTab() === tab.id"
+        (click)="selectTab(tab.id)"
+      >
+        <span class="tab-icon">{{ tab.icon }}</span>
+        <span class="tab-label">{{ tab.label }}</span>
+      </button>
+    }
+  </div>
+
+  <div class="tab-pane card">
+    @switch (activeTab()) {
+      @case ('account') {
+        <div class="pane-content">
+          <h2>Account Settings</h2>
+
+          <div class="settings-form-centered">
+            <div class="avatar-upload-group">
+              <label class="avatar-preview" for="avatar-input">
+                @if (avatarUrl(); as url) {
+                  <img [src]="url" alt="" />
+                } @else {
+                  <span class="avatar-fallback">{{ (store.user()?.name ?? '?').charAt(0).toUpperCase() }}</span>
+                }
+                <span class="avatar-overlay">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2Z" />
+                    <circle cx="12" cy="13" r="4" />
+                  </svg>
+                </span>
+              </label>
+              <input id="avatar-input" type="file" accept="image/*" class="visually-hidden" (change)="onAvatarFileSelected($event)" />
+              <p class="avatar-upload-hint">Click your photo to change it</p>
+            </div>
+
+            @if (accountError()) {
+              <p class="form-error">{{ accountError() }}</p>
+            }
+
+            <div class="settings-form-group">
+              <div class="detail-label">Email Address</div>
+              @if (editingEmail()) {
+                <div class="detail-edit">
+                  <input type="email" [(ngModel)]="tempEmail" (keydown.enter)="saveEmail()" placeholder="you@example.com" autofocus />
+                  <button type="button" class="icon-btn save" (click)="saveEmail()" aria-label="Save email">✓</button>
+                  <button type="button" class="icon-btn cancel" (click)="cancelEditEmail()" aria-label="Cancel">✕</button>
+                </div>
+              } @else {
+                <div class="detail-value">
+                  <span>{{ auth.currentUser()?.email }}</span>
+                  <button type="button" class="pencil-btn" (click)="startEditEmail()" aria-label="Edit email">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+                    </svg>
+                  </button>
+                </div>
+                @if (emailVerificationSentTo(); as pendingEmail) {
+                  <p class="email-verify-hint">Verification link sent to {{ pendingEmail }} — confirm it there to finish changing your email.</p>
+                }
+              }
+            </div>
+
+            <div class="settings-form-group">
+              <div class="detail-label">Password</div>
+              @if (editingPassword()) {
+                <div class="detail-edit">
+                  <input type="password" [(ngModel)]="tempPassword" (keydown.enter)="savePassword()" placeholder="New password" autofocus />
+                  <button type="button" class="icon-btn save" (click)="savePassword()" aria-label="Save password">✓</button>
+                  <button type="button" class="icon-btn cancel" (click)="cancelEditPassword()" aria-label="Cancel">✕</button>
+                </div>
+              } @else {
+                <div class="detail-value">
+                  <span>••••••••</span>
+                  @if (passwordSaved()) {
+                    <span class="saved-tick">✓ Saved</span>
+                  }
+                  <button type="button" class="pencil-btn" (click)="startEditPassword()" aria-label="Change password">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+                    </svg>
+                  </button>
+                </div>
+              }
+            </div>
+
+            <div class="mobile-logout-container">
+              <button type="button" class="btn-mobile-logout" (click)="logout()">Log Out</button>
+            </div>
+          </div>
+        </div>
+      }
+      @case ('preferences') {
+        <div class="pane-content">
+          <h2>App Preferences</h2>
+
+          <div class="pref-row">
+            <div>
+              <h3>Visual Mode</h3>
+              <p>Switch between light and dark theme.</p>
+            </div>
+            <button
+              type="button"
+              class="toggle-switch"
+              [class.on]="store.darkMode()"
+              (click)="setDarkMode(!store.darkMode())"
+              role="switch"
+              [attr.aria-checked]="store.darkMode()"
+              aria-label="Toggle dark mode"
+            >
+              <span class="knob"></span>
+            </button>
+          </div>
+
+          <div class="pref-row column">
+            <div>
+              <h3>Speech Playback Speed</h3>
+              <p>Controls how fast pronunciation audio plays.</p>
+            </div>
+            <div class="pill-selector">
+              @for (speed of ttsSpeeds; track speed.value) {
+                <button
+                  type="button"
+                  class="pill-option"
+                  [class.active]="store.ttsRate() === speed.value"
+                  (click)="setTtsRate(speed.value)"
+                >
+                  {{ speed.label }}
+                </button>
+              }
+            </div>
+          </div>
+
+          <div class="pref-row">
+            <div>
+              <h3>Game Sound Effects</h3>
+              <p>Reward chimes and correctness sounds during games.</p>
+            </div>
+            <button
+              type="button"
+              class="toggle-switch"
+              [class.on]="store.soundEnabled()"
+              (click)="toggleSound()"
+              role="switch"
+              [attr.aria-checked]="store.soundEnabled()"
+              aria-label="Toggle sound effects"
+            >
+              <span class="knob"></span>
+            </button>
+          </div>
+        </div>
+      }
+      @case ('danger') {
+        <div class="pane-content">
+          <h2>Danger Zone</h2>
+
+          <div class="danger-card">
+            <h3>Reset All Progress</h3>
+            <p>Keeps your account active but wipes all points, day streaks, and mastered word statuses.</p>
+            <button type="button" class="btn-danger-outline" (click)="resetProgress()">Reset Progress</button>
+          </div>
+
+          <div class="danger-card">
+            <h3>Delete Account</h3>
+            <p>Permanently deletes your account and wipes your custom decks. This cannot be undone.</p>
+
+            @if (!showDeleteConfirm()) {
+              <button type="button" class="btn-danger-solid" (click)="openDeleteConfirm()">Delete Account</button>
+            } @else {
+              <div class="delete-confirm">
+                <p>Type <strong>DELETE</strong> to confirm your request. This action is permanent and your custom decks will be wiped.</p>
+                <input type="text" [(ngModel)]="deleteConfirmText" placeholder="DELETE" />
+                <div class="delete-confirm-actions">
+                  <button type="button" class="btn btn-ghost" (click)="cancelDelete()">Cancel</button>
+                  <button
+                    type="button"
+                    class="btn-danger-solid"
+                    [disabled]="deleteConfirmText !== 'DELETE'"
+                    (click)="confirmDelete()"
+                  >
+                    Permanently Delete
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    }
+  </div>
+</div>

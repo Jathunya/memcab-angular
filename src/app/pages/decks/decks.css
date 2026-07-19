@@ -1,0 +1,132 @@
+:host {
+  display: block;
+}
+
+.decks {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.deck-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.deck-card {
+  position: relative;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.icon-actions {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.1rem;
+  display: flex;
+  gap: 0.4rem;
+}
+
+.icon-btn {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  box-shadow: var(--sh-sm);
+  color: var(--ink-soft);
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.icon-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.icon-btn:hover {
+  background: var(--teal-tint);
+  color: var(--teal-deep);
+}
+
+.icon-btn.delete:hover {
+  background: var(--coral-tint);
+  color: var(--coral);
+}
+
+.deck-main {
+  text-decoration: none;
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding-right: 4.5rem;
+}
+
+.deck-main h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 900;
+}
+
+.deck-main .desc {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  min-height: 1.2em;
+}
+
+.count-badge {
+  display: inline-flex;
+  width: fit-content;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--r-pill);
+  background: var(--teal-tint);
+  color: var(--teal-deep);
+  font-size: 0.75rem;
+  font-weight: 800;
+  margin-top: 0.1rem;
+}
+
+.deck-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  border-top: 1px solid var(--hairline);
+  padding-top: 0.75rem;
+}
+
+.deck-actions .btn {
+  padding: 0.4rem 0.7rem;
+  font-size: 0.78rem;
+}
+
+.btn-import {
+  background: var(--violet-tint);
+  box-shadow: var(--sh-sm);
+  color: var(--violet);
+}
+
+.btn-export {
+  background: var(--amber-tint);
+  box-shadow: var(--sh-inset-sm);
+  color: var(--amber-ink);
+}
+
+@media (max-width: 768px) {
+  .icon-btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  .deck-actions .btn {
+    min-height: 44px;
+  }
+}

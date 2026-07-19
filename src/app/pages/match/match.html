@@ -1,0 +1,43 @@
+<div class="match">
+  @if (insufficientWords()) {
+    <div class="empty-state card">
+      <span class="big-icon">🧩</span>
+      <h2>Not enough words yet</h2>
+      <p>This deck doesn't have enough words yet. Add at least {{ minWords }} words to play Word Match!</p>
+      <div class="guard-actions">
+        <a routerLink="/decks" class="btn btn-primary">📁 Manage decks</a>
+        <a routerLink="/hub" class="btn btn-ghost">🎮 Back to Game Hub</a>
+      </div>
+    </div>
+  } @else {
+    <div class="game-page-container">
+      <button type="button" class="btn-back-fixed" (click)="goBackToHub()" aria-label="Back to Game Hub">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+      </button>
+
+      <div class="section-head">
+        <h2>🧩 Word Match — {{ store.activeDeckName() }}</h2>
+        <span class="score">{{ matchedCount() }} / {{ pairCount() }}</span>
+      </div>
+
+      <div class="grid">
+        @for (tile of tiles(); track tile.id) {
+          <button
+            type="button"
+            class="tile"
+            [class.thai]="tile.lang === 'th'"
+            [class.matched]="tile.matched"
+            [class.selected]="selected().includes(tile.id)"
+            [class.mismatch]="mismatchIds().includes(tile.id)"
+            [disabled]="tile.matched"
+            (click)="select(tile)"
+          >
+            {{ tile.label }}
+          </button>
+        }
+      </div>
+    </div>
+  }
+</div>

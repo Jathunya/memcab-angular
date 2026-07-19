@@ -1,0 +1,37 @@
+<div class="badges">
+  <section>
+    <div class="section-head">
+      <h2>🏆 Achievements</h2>
+      <span class="count">{{ store.earnedBadges().length }} / {{ badges.length }} earned</span>
+    </div>
+    <div class="badge-grid">
+      @for (badge of badges; track badge.id) {
+        <div class="badge-card card" [class.earned]="isEarned(badge.id)">
+          <span class="icon">{{ badge.icon }}</span>
+          <h3>{{ badge.title }}</h3>
+          <p>{{ badge.description }}</p>
+          @if (isEarned(badge.id)) {
+            <span class="status earned-tag">earned</span>
+          } @else {
+            <span class="status locked-tag">locked</span>
+          }
+        </div>
+      }
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>Weekly leaderboard</h2>
+    </div>
+    <ol class="leaderboard card">
+      @for (entry of leaderboard; track entry.name; let i = $index) {
+        <li [class.you]="entry.isYou">
+          <span class="rank">{{ i + 1 }}</span>
+          <span class="name">{{ entry.name }}</span>
+          <span class="points">{{ entry.points }} pts</span>
+        </li>
+      }
+    </ol>
+  </section>
+</div>

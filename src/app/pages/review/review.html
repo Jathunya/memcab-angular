@@ -1,0 +1,97 @@
+<div class="review">
+  @if (!started()) {
+    <div class="deck-select card">
+      <h2>Choose decks to review</h2>
+      <p class="hint">Leave everything unchecked to review all decks combined.</p>
+      <div class="deck-list">
+        @for (deck of deckOptions(); track deck.id) {
+          <button
+            type="button"
+            class="deck-chip"
+            [class.selected]="selectedDeckIds().has(deck.id)"
+            (click)="toggleDeck(deck.id)"
+          >
+            {{ deck.name }}
+            <span class="count">{{ deck.count }}</span>
+          </button>
+        }
+      </div>
+      <div class="deck-select-footer">
+        <p class="due-hint">{{ previewCount() }} word(s) due</p>
+        <button type="button" class="btn btn-primary" [disabled]="previewCount() === 0" (click)="startReview()">
+          Start review
+        </button>
+      </div>
+    </div>
+  } @else if (total() === 0) {
+    <div class="empty-state card">
+      <span class="big-icon">🎉</span>
+      <h2>You're all caught up!</h2>
+      <p>No words waiting for review right now. Come back tomorrow, or explore other decks.</p>
+      <div class="guard-actions">
+        <button type="button" class="btn btn-ghost" (click)="changeDecks()">Change decks</button>
+        <a routerLink="/hub" class="btn btn-primary">Play a game instead</a>
+      </div>
+    </div>
+  } @else if (done()) {
+    <div class="empty-state card">
+      <span class="big-icon">✅</span>
+      <h2>Session complete</h2>
+      <p>You reviewed {{ reviewedThisSession() }} word(s). Nice work!</p>
+      <div class="guard-actions">
+        <button type="button" class="btn btn-ghost" (click)="changeDecks()">Review other decks</button>
+        <a routerLink="/home" class="btn btn-primary">Back to home</a>
+      </div>
+    </div>
+  } @else {
+    <div class="game-page-container">
+      <button type="button" class="btn-back-fixed" (click)="changeDecks()" aria-label="Go back to deck selection">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+      </button>
+
+      <div class="game-inner-content">
+        <div class="session-header">
+          <div class="progress-bar">
+            <div class="fill" [style.width.%]="(index() / total()) * 100"></div>
+          </div>
+          <button type="button" class="change-decks-link" (click)="changeDecks()">Change decks</button>
+        </div>
+        <p class="counter">{{ index() + 1 }} / {{ total() }}</p>
+
+        <div class="card-stage">
+          <div class="flashcard card" [class.flipped]="flipped()">
+            @if (!flipped()) {
+              <div class="face front">
+                <span class="word">{{ current()?.translation }}</span>
+                @if (current()?.pronunciation) {
+                  <span class="ipa">{{ current()?.pronunciation }}</span>
+                }
+                <button type="button" class="hear" (click)="hear()">🔊 Hear it</button>
+              </div>
+            } @else {
+              <div class="face back">
+                <p class="thai translation">{{ current()?.word }}</p>
+                <span class="pos">{{ current()?.partOfSpeech }}</span>
+                @if (current()?.customNote) {
+                  <p class="note">{{ current()?.customNote }}</p>
+                }
+              </div>
+            }
+          </div>
+        </div>
+
+        @if (!flipped()) {
+          <button type="button" class="btn btn-primary reveal" (click)="flip()">Show answer</button>
+        } @else {
+          <div class="grade-row">
+            <button type="button" class="btn grade again" (click)="grade('again')">Again</button>
+            <button type="button" class="btn grade good" (click)="grade('good')">Good</button>
+            <button type="button" class="btn grade easy" (click)="grade('easy')">Easy</button>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

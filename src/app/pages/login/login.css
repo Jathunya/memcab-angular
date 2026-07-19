@@ -1,0 +1,185 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+}
+
+.login {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  min-height: 100dvh;
+}
+
+.brand-side {
+  background: linear-gradient(160deg, var(--teal), var(--teal-deep));
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem;
+  gap: 1rem;
+}
+
+app-logo-mark {
+  margin-bottom: 0.5rem;
+}
+
+.brand-side h1 {
+  margin: 0;
+  font-size: 2.5rem;
+}
+
+.brand-side p {
+  max-width: 420px;
+  color: color-mix(in srgb, #fff 88%, transparent);
+  line-height: 1.6;
+}
+
+.highlights {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  font-weight: 600;
+}
+
+.form-side {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.login-form {
+  width: 100%;
+  max-width: 360px;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.login-form h2 {
+  margin: 0;
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.login-form .btn {
+  width: 100%;
+  margin-top: 0.4rem;
+}
+
+.form-error {
+  margin: 0;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--r-control);
+  background: var(--coral-tint);
+  color: var(--coral-ink);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.switch-auth {
+  margin: 0.2rem 0 0;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.switch-auth a {
+  color: var(--teal-deep);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.switch-auth a:hover {
+  text-decoration: underline;
+}
+
+.forgot-password-link-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin: -0.5rem 0 0;
+}
+
+.btn-forgot-password-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.815rem;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.btn-forgot-password-link:hover {
+  color: var(--teal);
+  text-decoration: underline;
+}
+
+.btn-back-to-login {
+  display: block;
+  margin: 0.2rem auto 0;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--teal-deep);
+  cursor: pointer;
+}
+
+.btn-back-to-login:hover {
+  text-decoration: underline;
+}
+
+.alert-success-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-radius: var(--r-control);
+  background-color: var(--success-tint);
+  border: 1px solid var(--success-border);
+  color: var(--success-ink);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.alert-success-banner svg {
+  flex-shrink: 0;
+  color: var(--success);
+}
+
+.animate-fade-in {
+  animation: banner-slide-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes banner-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 800px) {
+  .login {
+    grid-template-columns: 1fr;
+  }
+  .brand-side {
+    padding: 2.5rem;
+  }
+}

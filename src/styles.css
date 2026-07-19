@@ -1,3 +1,393 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import 'tailwindcss';
+
+:root {
+  /* memcab design tokens (UI-SPEC-TH.md 1:1) */
+  --bg: #f7f3ec;
+  --surface: #ffffff;
+  --ink: #1b2b2a;
+  --ink-soft: #6b7c7b;
+  --muted: #9aa7a6;
+  --hairline: rgba(27, 43, 42, 0.08);
+  --hairline-warm: #e7e0d4;
+
+  --teal: #10a19a;
+  --teal-deep: #0b6e6a;
+  --teal-tint: #e4f5f3;
+
+  --amber: #f2a93b;
+  --amber-ink: #b57a16;
+  --amber-tint: #fff3de;
+
+  --chip-border: #cbd5e1;
+  --chip-hover: #f8fafc;
+  --chip-selected: #fef9c3;
+  --chip-selected-border: #fde047;
+  --chip-ink: #1e293b;
+
+  --violet: #7c6bc4;
+  --violet-tint: #eae6f7;
+
+  --coral: #e7695b;
+  --coral-ink: #c0392b;
+  --coral-tint: #fdecec;
+
+  --success: #16a34a;
+  --success-ink: #166534;
+  --success-tint: #f0fdf4;
+  --success-border: #bbf7d0;
+
+  --new-grey: #b9c4c3;
+
+  /* Fixed dark accent background for bold cards (e.g. Daily Review CTA) that must
+     stay dark in both themes — kept separate from --ink, which flips to a light
+     value in dark mode for text-legibility purposes and would invert this card. */
+  --card-dark-bg: #1b2b2a;
+
+  --r-card: 18px;
+  --r-card-lg: 20px;
+  --r-hero: 24px;
+  --r-sheet: 26px;
+  --r-control: 12px;
+  --r-pill: 999px;
+
+  --grad-teal: linear-gradient(150deg, #10a19a, #0b6e6a);
+
+  /* Neumorphic (soft UI) dual-shadow system: raised shapes are bright white
+     --surface cutouts elevated off the cream --bg via a warm dark shadow
+     (bottom-right) paired with a white highlight (top-left); recessed
+     shapes (inputs, pressed buttons) invert the same pair as inset shadows. */
+  --neu-dark: rgba(163, 152, 128, 0.5);
+  --neu-dark-soft: rgba(163, 152, 128, 0.3);
+  --neu-light: #ffffff;
+
+  --sh-sm: 4px 4px 10px var(--neu-dark-soft), -3px -3px 8px var(--neu-light);
+  --sh-md: 8px 8px 20px var(--neu-dark), -6px -6px 16px var(--neu-light);
+  --sh-inset-sm: inset 3px 3px 6px var(--neu-dark), inset -3px -3px 6px var(--neu-light);
+  --sh-inset-md: inset 4px 4px 9px var(--neu-dark), inset -4px -4px 9px var(--neu-light);
+  --shadow-modal: 0 24px 64px color-mix(in srgb, var(--ink) 28%, transparent);
+
+  --font-sans: 'Nunito', system-ui, -apple-system, sans-serif;
+  --font-thai: 'Noto Sans Thai', 'Nunito', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+/* Sleek deep-slate charcoal theme, toggled via .dark on <body> (App Preferences). */
+body.dark {
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --ink: #f1f5f9;
+  --ink-soft: #cbd5e1;
+  --muted: #94a3b8;
+  --hairline: rgba(255, 255, 255, 0.08);
+  --hairline-warm: rgba(255, 255, 255, 0.08);
+
+  --chip-border: #334155;
+  --chip-hover: #334155;
+  --chip-ink: #f1f5f9;
+
+  --card-dark-bg: #1e293b;
+
+  --success: #22c55e;
+  --success-ink: #86efac;
+  --success-tint: rgba(34, 197, 94, 0.12);
+  --success-border: rgba(34, 197, 94, 0.3);
+
+  --neu-dark: rgba(0, 0, 0, 0.55);
+  --neu-dark-soft: rgba(0, 0, 0, 0.35);
+  --neu-light: rgba(255, 255, 255, 0.05);
+
+  --shadow-modal: 0 24px 64px rgba(0, 0, 0, 0.6);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-weight: 600;
+}
+
+.thai {
+  font-family: var(--font-thai);
+  font-weight: 700;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--teal-tint);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: var(--r-control);
+  padding: 0.65rem 1.1rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: 1px solid transparent;
+  box-shadow: var(--sh-sm);
+  transition: transform 0.1s ease, background 0.15s ease, box-shadow 0.1s ease;
+}
+
+@media (max-width: 768px) {
+  .btn {
+    min-height: 44px;
+  }
+}
+
+.btn:active {
+  transform: scale(0.98);
+  box-shadow: var(--sh-inset-sm);
+}
+
+.btn-primary {
+  background: var(--teal);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--teal-deep);
+}
+
+.btn-ghost {
+  background: var(--surface);
+  color: var(--ink);
+  border-color: transparent;
+}
+
+.btn-ghost:hover {
+  background: color-mix(in srgb, var(--ink) 5%, var(--surface));
+}
+
+.btn-danger {
+  background: var(--coral);
+  color: #fff;
+}
+
+.btn-danger:hover {
+  filter: brightness(0.94);
+}
+
+.card {
+  background: var(--surface);
+  border-radius: var(--r-card);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--sh-md);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.field label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.field input,
+.field select,
+.field textarea {
+  border: 1px solid transparent;
+  border-radius: var(--r-control);
+  padding: 0.6rem 0.75rem;
+  font-size: 0.95rem;
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--sh-inset-sm);
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: 2px solid var(--teal);
+  outline-offset: 1px;
+}
+
+/* ---- shared page primitives ---- */
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.section-head h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+@media (max-width: 480px) {
+  .section-head h2 {
+    font-size: 1rem;
+  }
+}
+
+.game-page-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+  padding-top: 4.5rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+.game-inner-content {
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.btn-back-fixed {
+  position: absolute;
+  top: 1.25rem;
+  left: 1.25rem;
+  z-index: 50;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--sh-sm);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-back-fixed svg {
+  width: 20px;
+  height: 20px;
+}
+
+.btn-back-fixed:hover {
+  transform: scale(1.05);
+  box-shadow: var(--sh-md);
+}
+
+.btn-back-fixed:active {
+  transform: scale(0.96);
+  box-shadow: var(--sh-inset-sm);
+}
+
+.btn-back-fixed:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+
+.link {
+  color: var(--teal-deep);
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 0.15rem 0.55rem;
+  border-radius: var(--r-pill);
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: capitalize;
+}
+
+.status.new {
+  background: color-mix(in srgb, var(--new-grey) 35%, transparent);
+  color: var(--ink-soft);
+}
+
+.status.learning {
+  background: var(--amber-tint);
+  color: var(--amber-ink);
+}
+
+.status.mastered {
+  background: var(--teal-tint);
+  color: var(--teal-deep);
+}
+
+.pos {
+  display: inline-flex;
+  width: fit-content;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: var(--muted);
+}
+
+.empty-state .big-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.empty-state h2 {
+  margin: 0.2rem 0 0.4rem;
+  font-size: 1.1rem;
+  color: var(--ink);
+}
+
+.empty-state p {
+  margin: 0;
+  max-width: 34ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.empty-state .guard-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+}
