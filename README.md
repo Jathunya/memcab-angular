@@ -1,6 +1,8 @@
 <div align="center">
 
-# 🐘 Memcab
+<img src="public/memcab-logo.svg" width="72" height="72" alt="Memcab logo" />
+
+# memcab
 
 ### *Mem*ory + Voca*b*ulary — a cozy, zoneless Thai ⇄ English learning studio
 
